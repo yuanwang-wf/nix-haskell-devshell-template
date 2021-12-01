@@ -1,6 +1,10 @@
 dependencies:
   - base == 4.*
   - haskell-say
+
+library:
+  source-dirs: src
+
 executables:
   haskell-hello:
     main: Main.hs
