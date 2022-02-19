@@ -6,4 +6,4 @@ import HaskellSay (haskellSay)
 
 
 hi :: IO ()
-hi = hask HakellSay "Hello Haskell Nixers!"
+hi = haskellSay "Hello Haskell Nixers!"
