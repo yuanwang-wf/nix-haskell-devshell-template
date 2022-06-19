@@ -6,6 +6,7 @@ dependencies:
 
 library:
   source-dirs: src
+  ghc-options: -wall -Werror
 
 executables:
   haskell-hello:
