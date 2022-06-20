@@ -1,10 +1,36 @@
+name: hello
+
 dependencies:
   - base == 4.*
   - haskell-say
 
 library:
   source-dirs: src
+  ghc-options: -wall -Werror
 
 executables:
   haskell-hello:
     main: Main.hs
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - hello
+
+tests:
+  hello-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - hello
+    - base == 4.*
+    - hspec
+    - QuickCheck
+    verbatim: |
+      build-tool-depends:
+          hspec-discover:hspec-discover

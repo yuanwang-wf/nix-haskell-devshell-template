@@ -27,3 +27,5 @@ cabal.project.local~
 .HTF/
 .ghc.environment.*
 result
+.pre-commit-config.yaml
+*.cabal
