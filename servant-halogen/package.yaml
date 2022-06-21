@@ -8,6 +8,7 @@ dependencies:
   - aeson
   - bytestring
   - containers
+  - http-types
   - http-media
   - lucid
   - mtl

@@ -10,8 +10,21 @@ import Data.Proxy
 import Data.Text (Text)
 import qualified Data.Text as T
 import GHC.Generics
-import qualified Lucid as L
-import Lucid.Base
+import Lucid
+  ( Html,
+    body_,
+    head_,
+    href_,
+    html_,
+    link_,
+    rel_,
+    renderBS,
+    script_,
+    src_,
+    title_,
+    type_,
+  )
+import Network.HTTP.Types hiding (Header)
 import Network.Wai
 import Network.Wai.Application.Static
 import Network.Wai.Handler.Warp
@@ -33,12 +46,28 @@ main = do
     compress = gzip def {gzipFiles = GzipCompress}
 
 -- | API type
-type API = ("static" :> Raw)
+type API = ("static" :> Raw) :<|> Raw
 
 myAPI :: Proxy API
 myAPI = Proxy
 
 app :: FilePath -> Application
-app path = serve myAPI (static)
+app path = serve myAPI (static :<|> Tagged handleIndex)
   where
     static = serveDirectoryWith (defaultWebAppSettings path)
+
+handleIndex :: Application
+handleIndex _ respond =
+  respond $
+    responseLBS
+      status200
+      [("Content-Type", "text/html")]
+      $ renderBS renderIndex
+
+-- https://github.com/tryhaskell/tryhaskell/blob/d8b59e71d46cb890935f5c0c6c1d723cc9f78d99/src/TryHaskell.hs#L326-L419
+renderIndex :: Html ()
+renderIndex = html_ $ do
+  head_ $ do
+    title_ "hello world"
+  body_ $ do
+    script_ [src_ "/static/frontend.js"] ("" :: String)

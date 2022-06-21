@@ -59,7 +59,7 @@
               # hl.disableExecutableProfiling
             ];
           };
-        runSite = pkgs.runCommand "hello-website" { PORT = "8080"; "STATIC_FILE_PATH" = "${frontendJs}"; }
+        runSite = pkgs.runCommand "hello-website" { PORT = "9000"; "STATIC_FILE_PATH" = "${frontendJs}"; }
           ''
             ${self.packages.${system}.pkg}/bin/haskell-hello
           ''
