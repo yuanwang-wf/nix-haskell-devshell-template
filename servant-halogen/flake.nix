@@ -32,7 +32,7 @@
           files = "\\.purs$";
           language = "system";
         };
-        frontendJs = (import ./purescript { inherit pkgs; }).frontendJs;
+        frontendJs = (import ./frontends { inherit pkgs purs spago; }).frontendJs;
         wireShellhook = haskellPackage:
           hl.overrideCabal haskellPackage (oldAttributes: {
             shellHook = (oldAttributes.shellHook or "") + self.checks.${system}.pre-commit-check.shellHook;

@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs, purs, spago }:
 
 let spagoPkgs = import ./spago-packages.nix { inherit pkgs; };
 
@@ -18,7 +18,7 @@ in
     '';
     buildPhase = ''
       build-spago-style "./src/**/*.purs"
-      esbuild --bundle ./output/Frontend/index.js --platform=browser --minify --outfile="frontend.js"
+      esbuild --bundle ./output/Main/index.js --platform=browser --minify --outfile="frontend.js"
     '';
     installPhase = ''
       mkdir $out
