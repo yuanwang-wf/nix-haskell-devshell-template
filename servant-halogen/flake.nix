@@ -32,7 +32,7 @@
           files = "\\.purs$";
           language = "system";
         };
-
+        frontendJs = (import ./purescript { inherit pkgs; }).frontendJs;
         wireShellhook = haskellPackage:
           hl.overrideCabal haskellPackage (oldAttributes: {
             shellHook = (oldAttributes.shellHook or "") + self.checks.${system}.pre-commit-check.shellHook;
@@ -62,7 +62,10 @@
 
       in
       {
-        packages.pkg = project [ ]; # [3]
+        packages = flake-utils.lib.flattenTree {
+          frontendJs = frontendJs;
+          pkg = project [ ];
+        };
         checks = {
           pre-commit-check = pre-commit-hooks.lib.${system}.run {
             src = ./.;
