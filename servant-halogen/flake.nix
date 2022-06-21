@@ -61,7 +61,7 @@
           };
         runSite = pkgs.runCommand "hello-website" { PORT = "8080"; "STATIC_FILE_PATH" = "${frontendJs}"; }
           ''
-            ${pkgs.lib.getExe self.packags.${system}.pkg}
+            ${self.packages.${system}.pkg}/bin/haskell-hello
           ''
         ;
       in
