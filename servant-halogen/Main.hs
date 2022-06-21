@@ -27,8 +27,8 @@ main :: IO.IO ()
 main = do
   port <- fmap (fromMaybe 8080 . join . fmap readMaybe) $ lookupEnv "PORT"
   staticFilePath <- fromMaybe "/var/www" <$> lookupEnv "STATIC_FILE_PATH"
-  IO.hPutStrLn IO.stderr "Running on port 3002..."
-  run 3002 $ logStdout (compress app)
+  IO.hPutStrLn IO.stderr $ "Running on port " <> (show port) <> "..."
+  run port $ logStdout (compress $ app staticFilePath)
   where
     compress = gzip def {gzipFiles = GzipCompress}
 
@@ -38,7 +38,7 @@ type API = ("static" :> Raw)
 myAPI :: Proxy API
 myAPI = Proxy
 
-app :: Application
-app = serve myAPI (static)
+app :: FilePath -> Application
+app path = serve myAPI (static)
   where
-    static = serveDirectoryWith (defaultWebAppSettings "static")
+    static = serveDirectoryWith (defaultWebAppSettings path)

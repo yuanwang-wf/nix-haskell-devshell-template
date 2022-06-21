@@ -59,13 +59,18 @@
               # hl.disableExecutableProfiling
             ];
           };
-
+        runSite = pkgs.runCommand "hello-website" { PORT = "8080"; "STATIC_FILE_PATH" = "${frontendJs}"; }
+          ''
+            ${pkgs.lib.getExe self.packags.${system}.pkg}
+          ''
+        ;
       in
       {
         packages = flake-utils.lib.flattenTree {
           frontendJs = frontendJs;
           pkg = project [ ];
         };
+        apps.runSite = flake-utils.lib.mkApp { drv = runSite; };
         checks = {
           pre-commit-check = pre-commit-hooks.lib.${system}.run {
             src = ./.;
