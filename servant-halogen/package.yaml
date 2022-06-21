@@ -1,12 +1,45 @@
 name: hello
 
 dependencies:
-  - base == 4.*
   - haskell-say
+  - base >= 4.7 && < 5
+  - rio
+  - rel8
+  - aeson
+  - bytestring
+  - containers
+  - http-media
+  - lucid
+  - mtl
+  - servant
+  - servant-rawm
+  - servant-rawm-server
+  - servant-server
+  - stm
+  - text
+  - time
+  - transformers
+  - warp
 
 library:
   source-dirs: src
-  ghc-options: -wall -Werror
+  ghc-options:
+    - -Wall
+    - -Wcompat
+    - -Widentities
+    - -Wincomplete-record-updates
+    - -Wincomplete-uni-patterns
+    - -Wpartial-fields
+    - -Wredundant-constraints
+    - -Wno-name-shadowing
+    - -fwarn-monomorphism-restriction
+    - -Werror
+
+default-extensions:
+  - OverloadedStrings
+  - NoImplicitPrelude
+  - TypeApplications
+
 
 executables:
   haskell-hello:
