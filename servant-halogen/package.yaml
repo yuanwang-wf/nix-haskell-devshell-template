@@ -20,6 +20,9 @@ dependencies:
   - time
   - transformers
   - warp
+  - wai
+  - wai-app-static
+  - wai-extra
 
 library:
   source-dirs: src
