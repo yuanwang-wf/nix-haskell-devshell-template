@@ -3,30 +3,16 @@
 
 module Main where
 
-import Data.Aeson
-import Data.Functor ((<$>))
-import Data.Maybe (fromMaybe)
 import Data.Proxy
-import Data.Text (Text)
-import qualified Data.Text as T
-import GHC.Generics
 import Lucid
-  ( Html,
-    body_,
+  ( body_,
     doctype_,
-    h2_,
     head_,
-    href_,
     html_,
     lang_,
-    link_,
-    rel_,
-    renderBS,
     script_,
     src_,
     title_,
-    type_,
-    with,
   )
 import Lucid.Base
 import Network.HTTP.Types hiding (Header)
@@ -38,7 +24,6 @@ import Network.Wai.Middleware.RequestLogger
 import RIO
 import Servant
 import Servant.HTML.Lucid
-import Servant.Server.Internal
 import System.Environment (lookupEnv)
 import qualified System.IO as IO
 
@@ -81,11 +66,3 @@ renderIndex = do
     body_ $ do
       -- div_ []
       script_ [src_ "/static/frontend.js"] ("" :: String)
-  where
-    jsRef href =
-      with
-        (script_ mempty)
-        [ makeAttribute "src" href,
-          makeAttribute "async" mempty,
-          makeAttribute "defer" mempty
-        ]

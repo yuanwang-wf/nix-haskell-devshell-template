@@ -26,20 +26,21 @@ dependencies:
   - wai-app-static
   - wai-extra
 
+ghc-options:
+  - -Wall
+  - -Wcompat
+  - -Widentities
+  - -Wincomplete-record-updates
+  - -Wincomplete-uni-patterns
+  - -Wpartial-fields
+  - -Wredundant-constraints
+  - -Wno-name-shadowing
+  - -fwarn-monomorphism-restriction
+  - -Werror
+
+
 library:
   source-dirs: src
-  ghc-options:
-    - -Wall
-    - -Wcompat
-    - -Widentities
-    - -Wincomplete-record-updates
-    - -Wincomplete-uni-patterns
-    - -Wpartial-fields
-    - -Wredundant-constraints
-    - -Wno-name-shadowing
-    - -fwarn-monomorphism-restriction
-    - -Werror
-
 default-extensions:
   - OverloadedStrings
   - NoImplicitPrelude
