@@ -88,6 +88,7 @@
           # [4]
           cabal-fmt
           cabal-install
+          warp
           haskell-language-server
           hlint
           ormolu
