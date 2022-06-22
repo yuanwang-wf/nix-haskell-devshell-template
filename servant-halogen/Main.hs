@@ -13,10 +13,12 @@ import GHC.Generics
 import Lucid
   ( Html,
     body_,
+    doctype_,
     h2_,
     head_,
     href_,
     html_,
+    lang_,
     link_,
     rel_,
     renderBS,
@@ -35,6 +37,7 @@ import Network.Wai.Middleware.Gzip
 import Network.Wai.Middleware.RequestLogger
 import RIO
 import Servant
+import Servant.HTML.Lucid
 import Servant.Server.Internal
 import System.Environment (lookupEnv)
 import qualified System.IO as IO
@@ -49,13 +52,13 @@ main = do
     compress = gzip def {gzipFiles = GzipCompress}
 
 -- | API type
-type API = ("static" :> Raw) :<|> Raw
+type API = ("static" :> Raw) :<|> Get '[HTML] (Html ())
 
 myAPI :: Proxy API
 myAPI = Proxy
 
 app :: FilePath -> Application
-app path = serve myAPI (static :<|> Tagged handleIndex)
+app path = serve myAPI (static :<|> return renderIndex)
   where
     static = serveDirectoryWith (defaultWebAppSettings path)
 
@@ -67,14 +70,17 @@ handleIndex _ respond =
       [("Content-Type", "text/html")]
       $ renderBS renderIndex
 
+-- https://github.com/haskell-servant/servant-lucid/blob/master/example/Main.hs
 -- https://github.com/tryhaskell/tryhaskell/blob/d8b59e71d46cb890935f5c0c6c1d723cc9f78d99/src/TryHaskell.hs#L326-L419
 renderIndex :: Html ()
-renderIndex = html_ $ do
-  head_ $ do
-    title_ "hello world"
-    jsRef "/static/frontend.js"
-  body_ $ do
-    h2_ "body"
+renderIndex = do
+  doctype_
+  html_ [lang_ "en"] $ do
+    head_ $ do
+      title_ "hello world"
+    body_ $ do
+      -- div_ []
+      script_ [src_ "/static/frontend.js"] ("" :: String)
   where
     jsRef href =
       with

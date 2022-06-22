@@ -91,7 +91,7 @@
           haskell-language-server
           hlint
           ormolu
-
+          pkgs.esbuild
           purescript-language-server
           purs
           purs-tidy
