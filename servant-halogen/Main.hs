@@ -13,6 +13,7 @@ import GHC.Generics
 import Lucid
   ( Html,
     body_,
+    h2_,
     head_,
     href_,
     html_,
@@ -23,7 +24,9 @@ import Lucid
     src_,
     title_,
     type_,
+    with,
   )
+import Lucid.Base
 import Network.HTTP.Types hiding (Header)
 import Network.Wai
 import Network.Wai.Application.Static
@@ -69,5 +72,14 @@ renderIndex :: Html ()
 renderIndex = html_ $ do
   head_ $ do
     title_ "hello world"
+    jsRef "/static/frontend.js"
   body_ $ do
-    script_ [src_ "/static/frontend.js"] ("" :: String)
+    h2_ "body"
+  where
+    jsRef href =
+      with
+        (script_ mempty)
+        [ makeAttribute "src" href,
+          makeAttribute "async" mempty,
+          makeAttribute "defer" mempty
+        ]

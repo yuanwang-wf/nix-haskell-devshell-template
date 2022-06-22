@@ -18,7 +18,7 @@ in
     '';
     buildPhase = ''
       build-spago-style "./src/**/*.purs"
-      esbuild --bundle ./output/Main/index.js --platform=browser --minify --outfile="frontend.js"
+      esbuild --bundle ./output/Main/index.js --platform=browser  --outfile="frontend.js"
     '';
     installPhase = ''
       mkdir $out
