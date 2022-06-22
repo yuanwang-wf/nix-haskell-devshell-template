@@ -40,7 +40,7 @@ main :: IO.IO ()
 main = do
   port <- fmap (fromMaybe 8080 . join . fmap readMaybe) $ lookupEnv "PORT"
   staticFilePath <- fromMaybe "/var/www" <$> lookupEnv "STATIC_FILE_PATH"
-  IO.hPutStrLn IO.stderr $ "Running on port " <> (show port) <> "..."
+  IO.hPutStrLn IO.stderr $ "Running on port " <> show port <> "..."
   run port $ logStdout (compress $ app staticFilePath)
   where
     compress = gzip def {gzipFiles = GzipCompress}
