@@ -16,9 +16,11 @@ in
       cp -r $src/src .
       install-spago-style
     '';
+    # https://github.com/purescript/spago/blob/310a7096b0d3e86f6464c667aa2339045d85d505/src/Spago/Build.hs#L422
+    # https://esbuild.github.io/api/#transform-api
     buildPhase = ''
       build-spago-style "./src/**/*.purs"
-      esbuild --bundle ./output/Main/index.js  --outfile="frontend.js"
+      echo 'import {main} from "./output/Main/index.js"; main();' | esbuild --platform=browser --format=iife --bundle  --outfile="frontend.js"
     '';
     installPhase = ''
       mkdir $out
