@@ -79,6 +79,7 @@
                 enable = true;
                 excludes = [ ".*spago-packages.nix$" ];
               };
+              inherit purs-tidy-hook;
               ormolu.enable = true;
             };
           };
