@@ -18,8 +18,8 @@
           spago = prev.spago.overrideAttrs (o: rec {
             src = prev.fetchgit {
               url = "https://github.com/yuanwang-wf/spago.git";
-              sha256 = "10wy61zc236jzpngmw1qplcbfkjcjdk2aifzkbm697gqpks2vskd";
-              rev = "5d195e13cecdd2a3a91f3bca687f54e71ba6e463";
+              sha256 = "008krsmwmvmkz7ack6d6krr3ss8vsl669m6wmn5bc6lbpbjnj3c1";
+              rev = "b72efb136b5af3e567ed9c10885d7d9c62c10856";
               fetchSubmodules = true;
             };
           });

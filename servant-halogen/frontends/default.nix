@@ -20,7 +20,7 @@ in
     # https://esbuild.github.io/api/#transform-api
     buildPhase = ''
       build-spago-style "./src/**/*.purs"
-      echo 'import {main} from "./output/Main/index.js"; main();' | esbuild --platform=browser --format=iife --bundle  --outfile="frontend.js"
+      ${pkgs.spago}/bin/spago -V bundle-app --no-install --main Main --no-build --global-cache skip
     '';
     installPhase = ''
       mkdir $out
