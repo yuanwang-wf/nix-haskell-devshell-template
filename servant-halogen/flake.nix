@@ -14,12 +14,23 @@
   outputs = { self, nixpkgs, flake-utils, pre-commit-hooks, easy-ps-nix }:
     flake-utils.lib.eachDefaultSystem (system:
       let
+        overlay = final: prev: {
+          spago = prev.spago.overrideAttrs (o: rec {
+            src = prev.fetchgit {
+              url = "https://github.com/yuanwang-wf/spago.git";
+              sha256 = "00vdqg7vaw3d9zwh47886lw9fhhlwjagzhaj3aqz4xm92pjavhih";
+              rev = "d16d4914200783fbd820ba89dbdf67270454faf5";
+              fetchSubmodules = true;
+            };
+          });
+        };
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [ ];
+          overlays = [ overlay ];
         };
         easy-ps = import easy-ps-nix { inherit pkgs; };
-        inherit (easy-ps) psa purescript-language-server purs purs-tidy spago spago2nix;
+        inherit (pkgs) spago;
+        inherit (easy-ps) psa purescript-language-server purs purs-tidy spago2nix;
 
         t = pkgs.lib.trivial;
         hl = pkgs.haskell.lib;
