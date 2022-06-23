@@ -8,7 +8,7 @@ in
   frontendJs = pkgs.stdenv.mkDerivation {
     name = "frontendJs";
     buildInputs = [ spagoPkgs.installSpagoStyle spagoPkgs.buildSpagoStyle ];
-    nativeBuildInputs = with pkgs; [ purs spago esbuild ];
+    nativeBuildInputs = with pkgs; [ purs spago esbuild git ];
     src = ./.;
     unpackPhase = ''
       cp $src/spago.dhall .
@@ -24,7 +24,7 @@ in
     '';
     installPhase = ''
       mkdir $out
-      mv frontend.js $out/
+      mv index.js $out/
     '';
   };
 
