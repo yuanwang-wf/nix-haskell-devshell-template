@@ -14,12 +14,13 @@
   outputs = { self, nixpkgs, flake-utils, pre-commit-hooks, easy-ps-nix }:
     flake-utils.lib.eachDefaultSystem (system:
       let
+        overlay = final: prev: {
+          inherit (final.callPackage easy-ps-nix { }) psa purescript-language-server purs purs-tidy spago spago2nix;
+        };
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [ ];
+          overlays = [ overlay ];
         };
-        easy-ps = import easy-ps-nix { inherit pkgs; };
-        inherit (easy-ps) psa purescript-language-server purs purs-tidy spago spago2nix;
 
         t = pkgs.lib.trivial;
         hl = pkgs.haskell.lib;
@@ -28,11 +29,11 @@
         purs-tidy-hook = {
           enable = true;
           name = "purs-tidy";
-          entry = "${purs-tidy}/bin/purs-tidy format-in-place";
+          entry = "${pkgs.purs-tidy}/bin/purs-tidy format-in-place";
           files = "\\.purs$";
           language = "system";
         };
-        frontendJs = (import ./frontends { inherit pkgs purs spago; }).frontendJs;
+        frontendJs = (import ./frontends { inherit pkgs; }).frontendJs;
         wireShellhook = haskellPackage:
           hl.overrideCabal haskellPackage (oldAttributes: {
             shellHook = (oldAttributes.shellHook or "") + self.checks.${system}.pre-commit-check.shellHook;
@@ -94,11 +95,11 @@
           hlint
           ormolu
           pkgs.esbuild
-          purescript-language-server
-          purs
-          purs-tidy
-          spago
-          spago2nix
+          pkgs.purescript-language-server
+          pkgs.purs
+          pkgs.purs-tidy
+          pkgs.spago
+          pkgs.spago2nix
         ]);
 
       });
