@@ -1,4 +1,4 @@
-{ pkgs, purs, spago }:
+{ pkgs }:
 
 let spagoPkgs = import ./spago-packages.nix { inherit pkgs; };
 
